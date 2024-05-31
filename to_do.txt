@@ -1,0 +1,5 @@
+* search other implementation something is wrong
+
+* understand code
+
+* make sure everything that should be in the GPU is
