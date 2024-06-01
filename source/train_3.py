@@ -1,4 +1,4 @@
-"""Train Flappy bird game with Deep Q Nets
+"""Train Flappy bird game with Double Deep Q Nets.
 """
 
 import os
@@ -44,15 +44,14 @@ def train(test_id):
  
     # Epsilon values for ϵ greedy exploration
     EPS_START = 0.1
-    EPS_END = 1e-4
+    EPS_END = 1e-6
     EPS_DECAY = 0.999995
     
     # update rate of the target network
     TAU = 0.005
 
-    # total number of episodes to run training for
-    EPISODES = 20000
-    ITERATIONS = 2000000
+    # total number iterations for each experiment
+    ITERATIONS = 200
     
     # number of steps before updating target network from Q network
     C_STEPS = 1000
@@ -66,7 +65,6 @@ def train(test_id):
     # initialize networks
     Q_net = DeepQNetwork()  # policy network
     Q_net.to(device)
-    # Q_net.apply(init_weights)
     
     target_net = DeepQNetwork()
     target_net.to(device)
@@ -81,10 +79,11 @@ def train(test_id):
     
     # Initialize optimizer (another source suggests RMSProp for reproducibility)
     optimizer = optim.Adam(Q_net.parameters(), lr=LR, amsgrad=False)
-    # optimizer = optim.RMSprop(Q_net.parameters(), lr=1e-6, weight_decay=0.9, momentum=0.95)
+    # optimizer = optim.RMSprop(Q_net.parameters(), lr=LR, weight_decay=0.9, momentum=0.95)
     
     # set loss function
     criterion = nn.MSELoss()
+    # criterion = nn.SmoothL1Loss()
     
     # Initialize replay memory
     memory = ReplayMemory(MEMORY_SIZE)
@@ -98,11 +97,10 @@ def train(test_id):
     
     state = torch.cat(tuple(image for _ in range(4)))[None, :, :, :]
     episode_durations = []
+    all_loss = []
     duration = 0
-    while STEPS_DONE < ITERATIONS:
-        print(f"Step {STEPS_DONE}/{ITERATIONS}")
-        print(LINE_UP, end=LINE_CLEAR)
-        
+    max_duration = 0
+    while STEPS_DONE < ITERATIONS: 
         prediction = Q_net(state)[0]
         
         # Exploration or exploitation
@@ -156,10 +154,14 @@ def train(test_id):
             loss = criterion(q_value, y_batch)
             loss.backward()
             optimizer.step()
+            
+            print(f"Step {STEPS_DONE}/{ITERATIONS} --- Loss: {loss}")
+            print(LINE_UP, end=LINE_CLEAR)
 
             state = next_state
             STEPS_DONE += 1
             duration += 1
+            all_loss.append(loss)
             
             # if iterations reached the number update target network
             if STEPS_DONE % C_STEPS == 0:
@@ -174,9 +176,27 @@ def train(test_id):
             
             if terminal:
                 episode_durations.append(duration)
+                if duration > max_duration:
+                    max_duration = duration
+                    torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
+                    
                 plot_durations(episode_durations)
                 duration = 0
+                
+    log_episodes = {'episode': [i for i in range(len(episode_durations))], 
+                    'duration': episode_durations}
 
+    log_losses = {'iteration': [i for i in range(ITERATIONS)],
+                  'loss': [float(loss.detach().cpu()) for loss in all_loss]}
+
+    df_episode = pd.DataFrame(log_episodes)
+    df_episode.to_csv(f'./logs/episodes/{test_id}.csv', index=False)
+
+    df_losses = pd.DataFrame(log_losses)
+    df_losses.to_csv(f'./logs/losses/{test_id}.csv', index=False)
+    
+    pygame.quit()
+    exit()
 
 if __name__ == "__main__":
     
