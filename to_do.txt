@@ -1,5 +1,9 @@
-* search other implementation something is wrong
+* optimize GPU memory utilization
 
-* understand code
+* add sources in each file.py
 
-* make sure everything that should be in the GPU is
+* run steps.odt file starting for everything done
+    - double DQN implementation
+    - rewards tried
+    - architecture modified (compared to source x)
+    - 
