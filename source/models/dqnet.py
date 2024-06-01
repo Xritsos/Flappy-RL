@@ -1,5 +1,9 @@
-"""
+"""This architecture is based on:
 @author: Viet Nguyen <nhviet1009@gmail.com>
+@repo: https://github.com/uvipen/Flappy-bird-deep-Q-learning-pytorch/tree/master
+
+but is modified by adding SELU as activation and changing kernel sizes and strides.
+Also, default pytorch weights are used instead of the custom _create_weights().
 """
 
 import torch
@@ -12,22 +16,22 @@ class DeepQNetwork(nn.Module):
         torch.manual_seed(22)
         torch.cuda.manual_seed(22)
 
-        self.conv1 = nn.Sequential(nn.Conv2d(4, 32, kernel_size=8, stride=4), 
-                                   nn.ReLU(inplace=True))
-        self.conv2 = nn.Sequential(nn.Conv2d(32, 64, kernel_size=4, stride=2), 
-                                   nn.ReLU(inplace=True))
-        self.conv3 = nn.Sequential(nn.Conv2d(64, 64, kernel_size=3, stride=1), 
-                                   nn.ReLU(inplace=True))
+        self.conv1 = nn.Sequential(nn.Conv2d(4, 32, kernel_size=3, stride=3), 
+                                   nn.SELU(inplace=True))
+        self.conv2 = nn.Sequential(nn.Conv2d(32, 64, kernel_size=2, stride=2), 
+                                   nn.SELU(inplace=True))
+        self.conv3 = nn.Sequential(nn.Conv2d(64, 64, kernel_size=2, stride=2), 
+                                   nn.SELU(inplace=True))
 
         self.fc1 = nn.Sequential(nn.Linear(7 * 7 * 64, 512), nn.ReLU(inplace=True))
         self.fc2 = nn.Linear(512, 2)
-        self._create_weights()
+    #     self._create_weights()
 
-    def _create_weights(self):
-        for m in self.modules():
-            if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
-                nn.init.uniform_(m.weight, -0.01, 0.01)
-                nn.init.constant_(m.bias, 0)
+    # def _create_weights(self):
+    #     for m in self.modules():
+    #         if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+    #             nn.init.uniform_(m.weight, -0.01, 0.01)
+    #             nn.init.constant_(m.bias, 0)
 
     def forward(self, input):
         output = self.conv1(input)
