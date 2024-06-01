@@ -1,5 +1,9 @@
 * optimize GPU memory utilization
 
+* create tests.csv file and read from there
+
+* calculate and save runtimes
+
 * add sources in each file.py
 
 * run steps.odt file starting for everything done
