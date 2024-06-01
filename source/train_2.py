@@ -19,7 +19,7 @@ import matplotlib.pyplot as plt
 
 sys.path.append('./')
 from source.utils import Image
-from source.models.dqnet import QNetwork
+from source.models.linear import QNetwork
 from source.utils.Plot import plot_durations
 from source.utils.Buffer import ReplayMemory
 from source.game import wrapped_flappy_bird as game
