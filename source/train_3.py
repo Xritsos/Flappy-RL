@@ -51,7 +51,7 @@ def train(test_id):
     TAU = 0.005
 
     # total number iterations for each experiment
-    ITERATIONS = 200
+    ITERATIONS = 20000
     
     # number of steps before updating target network from Q network
     C_STEPS = 1000
@@ -99,7 +99,7 @@ def train(test_id):
     episode_durations = []
     all_loss = []
     duration = 0
-    max_duration = 0
+    min_loss = torch.tensor(1000, dtype=torch.float32).to(device)
     while STEPS_DONE < ITERATIONS: 
         prediction = Q_net(state)[0]
         
@@ -163,6 +163,13 @@ def train(test_id):
             duration += 1
             all_loss.append(loss)
             
+            # if min_loss == 0.0:
+            #     min_loss = loss
+            
+            if loss < min_loss:
+                    min_loss = loss
+                    torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
+            
             # if iterations reached the number update target network
             if STEPS_DONE % C_STEPS == 0:
                 target_net_state_dict = target_net.state_dict()
@@ -176,10 +183,6 @@ def train(test_id):
             
             if terminal:
                 episode_durations.append(duration)
-                if duration > max_duration:
-                    max_duration = duration
-                    torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
-                    
                 plot_durations(episode_durations)
                 duration = 0
                 
