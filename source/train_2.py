@@ -94,7 +94,7 @@ def train(test_id):
         game_state = game.GameState()
         
         # Initial action is do nothing
-        action = torch.zeros(2, dtype=torch.float32).to(device)
+        action = torch.zeros(2, dtype=torch.float32)
         action[0] = 1
         
         # [1, 0] is do nothing, [0, 1] is fly up
@@ -103,10 +103,10 @@ def train(test_id):
         # Image Preprocessing
         image_data = Image.resize_and_bgr2gray(image_data)
         image_data = Image.image_to_tensor(image_data)
-        image_data = image_data.to(device)
+        # image_data = image_data.to(device)
         
         state = torch.cat((image_data, image_data, image_data, image_data)).unsqueeze(0)
-        state_input = state.view(state.size()[0], -1)
+        state_input = state.view(state.size()[0], -1).to(device)
         
         for c in count():
             action = torch.zeros(2, dtype=torch.float32).to(device)
@@ -129,9 +129,10 @@ def train(test_id):
             image_data_next, reward, terminal = game_state.frame_step(action)
             image_data_next = Image.resize_and_bgr2gray(image_data_next)
             image_data_next = Image.image_to_tensor(image_data_next)
-            image_data_next = image_data_next.to(device)
+            # image_data_next = image_data_next.to(device)
             
             state_next = torch.cat((state.squeeze(0)[1:, :, :], image_data_next)).unsqueeze(0)
+            # state_next = state_next.to(device)
 
             action = action.unsqueeze(0)
             reward = torch.from_numpy(np.array([reward], dtype=np.float32)).unsqueeze(0)
@@ -147,12 +148,13 @@ def train(test_id):
                 minibatch = memory.sample(min(len(memory), BATCH_SIZE))
 
                 # Unpack minibatch
-                state_batch = torch.cat(tuple(d[0] for d in minibatch)).to(device)
-                action_batch = torch.cat(tuple(d[1] for d in minibatch)).to(device)
+                state_batch = torch.cat(tuple(d[0] for d in minibatch))
+                action_batch = torch.cat(tuple(d[1] for d in minibatch))
                 reward_batch = torch.cat(tuple(d[2] for d in minibatch)).to(device)
-                state_next_batch = torch.cat(tuple(d[3] for d in minibatch)).to(device)
+                state_next_batch = torch.cat(tuple(d[3] for d in minibatch))
                 
                 state_next_batch_input = state_next_batch.view(state_next_batch.size()[0], -1)
+                state_next_batch_input = state_next_batch_input.to(device)
                 
                 # Get output for the next state
                 with torch.no_grad():
@@ -160,19 +162,18 @@ def train(test_id):
                 
                 # Set y_j to r_j for terminal state, otherwise to r_j + gamma*max(Q)
                 y_batch = torch.cat(tuple(reward_batch[i] if minibatch[i][4]
-                                          else reward_batch[i] + GAMMA * torch.max(output_next_batch[i])
+                                          else reward_batch[i] + \
+                                              GAMMA * torch.max(output_next_batch[i])
                                           for i in range(len(minibatch))))
-
-                y_batch = y_batch.to(device)
                 
                 # Extract Q-value (this part i don't understand)
-                state_batch_input = state_batch.view(state_batch.size()[0], -1)
-                action_batch_input = action_batch.view(action_batch.size()[0], -1)
+                state_batch_input = state_batch.view(state_batch.size()[0], -1).to(device)
+                action_batch_input = action_batch.view(action_batch.size()[0], -1).to(device)
                 q_value = torch.sum(Q_net(state_batch_input) * action_batch_input, dim=1).to(device)
                 
                 # Compute Huber loss
                 criterion = nn.SmoothL1Loss()
-                loss = criterion(q_value, y_batch.detach())
+                loss = criterion(q_value, y_batch)
                 
                 optimizer.zero_grad()
                 loss.backward()
