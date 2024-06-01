@@ -1,40 +1,41 @@
-"""Deep Q Network architecture as implemented in: https://github.com/hardlyrichie/pytorch-flappy-bird/tree/master
+"""
+@author: Viet Nguyen <nhviet1009@gmail.com>
 """
 
 import torch
 import torch.nn as nn
 
-
-class QNetwork(nn.Module):
-
+class DeepQNetwork(nn.Module):
     def __init__(self):
-        super(QNetwork, self).__init__()
-
+        super(DeepQNetwork, self).__init__()
+        
         torch.manual_seed(22)
-        
-        # Use same network architecture as DeepMind
-        # Input is 4 frames stacked to infer velocity
-        self.conv1 = nn.Conv2d(4, 32, 8, 4)
-        self.conv2 = nn.Conv2d(32, 64, 4, 2)
-        self.conv3 = nn.Conv2d(64, 64, 3, 1)
+        torch.cuda.manual_seed(22)
 
-        self.fc1 = nn.Linear(3136, 512)
-        
-        # Output 2 values: fly up and do nothing
+        self.conv1 = nn.Sequential(nn.Conv2d(4, 32, kernel_size=8, stride=4), 
+                                   nn.ReLU(inplace=True))
+        self.conv2 = nn.Sequential(nn.Conv2d(32, 64, kernel_size=4, stride=2), 
+                                   nn.ReLU(inplace=True))
+        self.conv3 = nn.Sequential(nn.Conv2d(64, 64, kernel_size=3, stride=1), 
+                                   nn.ReLU(inplace=True))
+
+        self.fc1 = nn.Sequential(nn.Linear(7 * 7 * 64, 512), nn.ReLU(inplace=True))
         self.fc2 = nn.Linear(512, 2)
-        
-        self.relu = nn.ReLU(inplace=True)
+        self._create_weights()
 
-    def forward(self, x):
-        x = self.relu(self.conv1(x))
-        x = self.relu(self.conv2(x))
-        x = self.relu(self.conv3(x))
-        
-        # Flatten output to feed into fully connected layers
-        x = x.view(x.size()[0], -1)
-        
-        x = self.relu(self.fc1(x))
-        x = self.fc2(x)
+    def _create_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
+                nn.init.uniform_(m.weight, -0.01, 0.01)
+                nn.init.constant_(m.bias, 0)
 
-        return x
+    def forward(self, input):
+        output = self.conv1(input)
+        output = self.conv2(output)
+        output = self.conv3(output)
+        output = output.view(output.size(0), -1)
+        output = self.fc1(output)
+        output = self.fc2(output)
+
+        return output
     
