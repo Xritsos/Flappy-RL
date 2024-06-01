@@ -111,7 +111,7 @@ class FlappyBird(object):
             pipe_center_x = pipe["x_upper"] + self.pipe_width / 2
             if pipe_center_x < bird_center_x < pipe_center_x + 5:
                 self.score += 1
-                reward = 1
+                reward = 100
                 break
 
         # Update index and iteration
@@ -140,7 +140,7 @@ class FlappyBird(object):
             del self.pipes[0]
         if self.is_collided():
             terminal = True
-            reward = -1
+            reward = -1000
             self.__init__()
 
         # Draw everything
