@@ -1,27 +1,22 @@
 """Implement the Replay Buffer."""
 
 import random
-from collections import namedtuple
+from collections import namedtuple, deque
 
+# Transition that maps (state, action) pairs to their (next_state, reward) result
+Transition = namedtuple('Transition', 
+                        ('state', 'action', 'next_state', 'reward', 'terminal'))
 
 class ReplayMemory:
     """A cyclic buffer of bounded size that holds the transitions observed recently"""
 
     def __init__(self, capacity):
         self.capacity = capacity
-        self.memory = []
-        self.position = 0
-        
-        # Transition that maps (state, action) pairs to their (next_state, reward) result
-        self.Transition = namedtuple('Transition', 
-                                     ('state', 'action', 'next_state', 'reward', 'terminal'))
+        self.memory = deque([], maxlen=capacity)
 
     def push(self, *args):
         """Saves a transition."""
-        if len(self.memory) < self.capacity:
-            self.memory.append(None)
-        self.memory[self.position] = self.Transition(*args)
-        self.position = (self.position + 1) % self.capacity
+        self.memory.append(Transition(*args))
 
     def sample(self, batch_size):
         """Selects a random batch of transitions for training."""
