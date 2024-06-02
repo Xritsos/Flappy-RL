@@ -42,9 +42,10 @@ def train(test_id):
     # size of buffer (replay memory)
     MEMORY_SIZE = int(df_tests['memory_size'][row])
     # Epsilon values for ϵ greedy exploration
-    EPS_START = float(df_tests['epsilon_start'][row])
-    EPS_END = float(df_tests['epsilon_end'][row])
-    EPS_DECAY = float(df_tests['epsilon_decay'][row])
+    # EPS_START = float(df_tests['epsilon_start'][row])
+    # EPS_END = float(df_tests['epsilon_end'][row])
+    # EPS_DECAY = float(df_tests['epsilon_decay'][row])
+    EPSILON = float(df_tests['epsilon'][row])
     
     # update rate of the target network
     TAU = float(df_tests['tau'][row])
@@ -71,9 +72,10 @@ def train(test_id):
     print(f"Memory Size: {MEMORY_SIZE}")
     print(f"Gamma: {GAMMA}")
     print(f"Tau: {TAU}")
-    print(f"E start: {EPS_START}")
-    print(f"E end: {EPS_END}")
-    print(f"E decay: {EPS_DECAY}")
+    print(f"Epsilon: {EPSILON}")
+    # print(f"E start: {EPS_START}")
+    # print(f"E end: {EPS_END}")
+    # print(f"E decay: {EPS_DECAY}")
     print(f"C Steps: {C_STEPS}")
     print("========================================================")    
     # initialize networks
@@ -123,9 +125,9 @@ def train(test_id):
         prediction = Q_net(state)[0]
         
         # Exploration or exploitation
-        epsilon = EPS_END + ((ITERATIONS - STEPS_DONE) * (EPS_START - EPS_END) / ITERATIONS)
+        # epsilon = EPS_END + ((ITERATIONS - STEPS_DONE) * (EPS_START - EPS_END) / ITERATIONS)
         u = random()
-        random_action = u <= epsilon
+        random_action = u <= EPSILON
         if random_action:
             action = randint(0, 1)
         else:
