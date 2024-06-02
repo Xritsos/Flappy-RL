@@ -142,7 +142,7 @@ def train(test_id):
         next_state = torch.cat((state[0, 1:, :, :], next_image))[None, :, :, :]
         memory.push(state, action, next_state, reward, terminal)
         
-        if len(memory) > 7 * BATCH_SIZE:
+        if len(memory) > 3 * BATCH_SIZE:
             # Sample random batch
             batch = memory.sample(min(len(memory), BATCH_SIZE))
             

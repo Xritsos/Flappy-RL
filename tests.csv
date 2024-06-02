@@ -1,3 +1,4 @@
 test_id,iterations,lr,optimizer,batch_size,memory_size,gamma,tau,epsilon,epsilon_start,epsilon_end,epsilon_decay,c_steps,score (duration),loss,runtime (hours),comments
-1,200000,0.00001,adam,32,20000,0.99,0.005,0.5,none,none,none,1000,0,0,0,stuck not learning
-2,200000,0.000001,adam,32,20000,0.99,0.005,0.5,none,none,none,1000,,,,
+1,200000,0.000001,adam,32,20000,0.99,0.005,0.5,none,none,none,1000,,,,
+2,200000,0.000001,adam,32,20000,0.99,0.005,0.1,none,none,none,1000,,,,
+3,200000,0.000001,adam,32,20000,0.99,0.005,0.8,none,none,none,1000,,,,

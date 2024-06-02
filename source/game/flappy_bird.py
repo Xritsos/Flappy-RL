@@ -143,7 +143,7 @@ class FlappyBird(object):
             del self.pipes[0]
         if self.is_collided():
             terminal = True
-            reward = -1000
+            reward = -10
             self.__init__()
 
         # Draw everything
