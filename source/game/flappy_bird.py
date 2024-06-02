@@ -98,7 +98,7 @@ class FlappyBird(object):
 
     def next_frame(self, action):
         pump()
-        reward = 0.1
+        reward = 0.0
         terminal = False
         # Check input action
         if action == 1:
@@ -111,7 +111,7 @@ class FlappyBird(object):
             pipe_center_x = pipe["x_upper"] + self.pipe_width / 2
             if pipe_center_x < bird_center_x < pipe_center_x + 5:
                 self.score += 1
-                reward = 100
+                reward = 10
                 break
 
         # Update index and iteration
