@@ -7,19 +7,19 @@ import time
 
 import torch
 import pygame
-from random import random, randint
 import numpy as np
 import pandas as pd
 import torch.nn as nn
 import torch.optim as optim
 import matplotlib.pyplot as plt
+from random import random, randint
 
 sys.path.append('./')
-from source.utils.process_image import pre_processing
 from source.models.dqnet import DeepQNetwork
 from source.utils.Plot import plot_durations
 from source.utils.Buffer import ReplayMemory
 from source.game.flappy_bird import FlappyBird
+from source.utils.process_image import pre_processing
 
 LINE_UP = '\033[1A'
 LINE_CLEAR = '\x1b[2K'
@@ -29,39 +29,53 @@ def train(test_id):
     torch.manual_seed(22)
     torch.cuda.manual_seed(22)
     np.random.seed(22)
-    
-    # ===================== initializations =========================
     device = "cuda"
-    
+    # ===================== initializations =========================
+    df_tests = pd.read_csv('./tests.csv')
+    row = test_id - 1
     # Discount factor
-    GAMMA = 0.99
+    GAMMA = float(df_tests['gamma'][row])
     
     # batch size to read from replay memory
-    BATCH_SIZE = 32
+    BATCH_SIZE = int(df_tests['batch_size'][row])
     
     # size of buffer (replay memory)
-    MEMORY_SIZE = 20000
- 
+    MEMORY_SIZE = int(df_tests['memory_size'][row])
     # Epsilon values for ϵ greedy exploration
-    EPS_START = 0.1
-    EPS_END = 1e-6
-    EPS_DECAY = 0.999995
+    EPS_START = float(df_tests['epsilon_start'][row])
+    EPS_END = float(df_tests['epsilon_end'][row])
+    EPS_DECAY = float(df_tests['epsilon_decay'][row])
     
     # update rate of the target network
-    TAU = 0.5
+    TAU = float(df_tests['tau'][row])
 
     # total number iterations for each experiment
-    ITERATIONS = 200000
+    ITERATIONS = int(df_tests['iterations'][row])
     
     # number of steps before updating target network from Q network
-    C_STEPS = 1000
+    C_STEPS = int(df_tests['c_steps'][row])
     
     STEPS_DONE = 0
     
     IMAGE_SIZE = 84
     
-    LR = 1e-4
+    LR = float(df_tests['lr'][row])
     
+    OPTIMIZER = str(df_tests['optimizer'][row])
+    
+    print()
+    print('==================== Parameters =======================')
+    print(f"Iterations: {ITERATIONS}")
+    print(f"Batch Size: {BATCH_SIZE}")
+    print(f"Learning Rate: {LR}")
+    print(f"Memory Size: {MEMORY_SIZE}")
+    print(f"Gamma: {GAMMA}")
+    print(f"Tau: {TAU}")
+    print(f"E start: {EPS_START}")
+    print(f"E end: {EPS_END}")
+    print(f"E decay: {EPS_DECAY}")
+    print(f"C Steps: {C_STEPS}")
+    print("========================================================")    
     # initialize networks
     Q_net = DeepQNetwork()  # policy network
     Q_net.to(device)
@@ -78,8 +92,10 @@ def train(test_id):
     target_net.load_state_dict(Q_net.state_dict())
     
     # Initialize optimizer (another source suggests RMSProp for reproducibility)
-    optimizer = optim.Adam(Q_net.parameters(), lr=LR, amsgrad=False)
-    # optimizer = optim.RMSprop(Q_net.parameters(), lr=LR, weight_decay=0.9, momentum=0.95)
+    if OPTIMIZER == "adam":
+        optimizer = optim.Adam(Q_net.parameters(), lr=LR, amsgrad=False)
+    elif OPITIMIZER == "rmsprop":
+        optimizer = optim.RMSprop(Q_net.parameters(), lr=LR, weight_decay=0.9, momentum=0.95)
     
     # set loss function
     criterion = nn.MSELoss()
@@ -88,6 +104,7 @@ def train(test_id):
     # Initialize replay memory
     memory = ReplayMemory(MEMORY_SIZE)
     
+    start_time = time.time()
     game_state = FlappyBird()
     image, reward, terminal = game_state.next_frame(0)
     image = pre_processing(image[:game_state.screen_width, :int(game_state.base_y)], 
@@ -99,6 +116,7 @@ def train(test_id):
     average = lambda x: sum(x) / len(x)
     episode_durations = []
     all_loss = []
+    save_loss = 0
     duration = 0
     max_avg_duration = 0 # for 20 episodes
     while STEPS_DONE < ITERATIONS: 
@@ -185,7 +203,13 @@ def train(test_id):
             if max_avg_duration < dur_20:
                 max_avg_duration = dur_20
                 torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
-                
+                save_loss = float(loss.detach().cpu())
+    
+    end_time = time.time() 
+    runtime = end_time - start_time
+    runtime = runtime / 3600
+    runtime = round(runtime, 2)
+                   
     log_episodes = {'episode': [i for i in range(len(episode_durations))], 
                     'duration': episode_durations}
 
@@ -198,12 +222,18 @@ def train(test_id):
     df_losses = pd.DataFrame(log_losses)
     df_losses.to_csv(f'./logs/losses/{test_id}.csv', index=False)
     
+    df_tests.loc[row, 'loss'] = save_loss
+    df_tests.loc[row, 'runtime (hours)'] = runtime
+    df_tests.loc[row, 'score (duration)'] = max_avg_duration
+    
+    df_tests.to_csv('./tests.csv', index=False)
+    
     pygame.quit()
     exit()
 
 if __name__ == "__main__":
     
-    for test_id in [0]:
+    for test_id in [1]:
         plt.ion()
         
         train(test_id)
