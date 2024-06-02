@@ -40,7 +40,7 @@ def train(test_id):
     BATCH_SIZE = 32
     
     # size of buffer (replay memory)
-    MEMORY_SIZE = 50000
+    MEMORY_SIZE = 20000
  
     # Epsilon values for ϵ greedy exploration
     EPS_START = 0.1
@@ -48,10 +48,10 @@ def train(test_id):
     EPS_DECAY = 0.999995
     
     # update rate of the target network
-    TAU = 0.005
+    TAU = 0.5
 
     # total number iterations for each experiment
-    ITERATIONS = 20000
+    ITERATIONS = 200000
     
     # number of steps before updating target network from Q network
     C_STEPS = 1000
@@ -60,7 +60,7 @@ def train(test_id):
     
     IMAGE_SIZE = 84
     
-    LR = 1e-6
+    LR = 1e-4
     
     # initialize networks
     Q_net = DeepQNetwork()  # policy network
@@ -96,10 +96,11 @@ def train(test_id):
     image = torch.from_numpy(image).to(device)
     
     state = torch.cat(tuple(image for _ in range(4)))[None, :, :, :]
+    average = lambda x: sum(x) / len(x)
     episode_durations = []
     all_loss = []
     duration = 0
-    min_loss = torch.tensor(1000, dtype=torch.float32).to(device)
+    max_avg_duration = 0 # for 20 episodes
     while STEPS_DONE < ITERATIONS: 
         prediction = Q_net(state)[0]
         
@@ -121,7 +122,7 @@ def train(test_id):
         next_state = torch.cat((state[0, 1:, :, :], next_image))[None, :, :, :]
         memory.push(state, action, next_state, reward, terminal)
         
-        if len(memory) > 5 * BATCH_SIZE:
+        if len(memory) > 7 * BATCH_SIZE:
             # Sample random batch
             batch = memory.sample(min(len(memory), BATCH_SIZE))
             
@@ -151,7 +152,7 @@ def train(test_id):
 
             q_value = torch.sum(current_prediction_batch * action_batch, dim=1)
             optimizer.zero_grad()
-            loss = criterion(q_value, y_batch)
+            loss = criterion(q_value, y_batch.detach())
             loss.backward()
             optimizer.step()
             
@@ -163,28 +164,27 @@ def train(test_id):
             duration += 1
             all_loss.append(loss)
             
-            # if min_loss == 0.0:
-            #     min_loss = loss
-            
-            if loss < min_loss:
-                    min_loss = loss
-                    torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
-            
-            # if iterations reached the number update target network
-            if STEPS_DONE % C_STEPS == 0:
-                target_net_state_dict = target_net.state_dict()
-                policy_net_state_dict = Q_net.state_dict()
-                
-                for key in policy_net_state_dict:
-                    target_net_state_dict[key] = policy_net_state_dict[key]*TAU\
-                                                + target_net_state_dict[key]*(1-TAU)
-                                                
-                target_net.load_state_dict(target_net_state_dict)
-            
-            if terminal:
-                episode_durations.append(duration)
-                plot_durations(episode_durations)
-                duration = 0
+        # if iterations reached the number update target network
+        if STEPS_DONE % C_STEPS == 0:
+            target_net_state_dict = target_net.state_dict()
+            policy_net_state_dict = Q_net.state_dict()
+
+            for key in policy_net_state_dict:
+                target_net_state_dict[key] = policy_net_state_dict[key]*TAU\
+                                            + target_net_state_dict[key]*(1-TAU)
+
+            target_net.load_state_dict(target_net_state_dict)
+
+        if terminal:
+            episode_durations.append(duration)
+            plot_durations(episode_durations)
+            duration = 0
+
+        if len(episode_durations) >= 20:
+            dur_20 = average(episode_durations[-20:])
+            if max_avg_duration < dur_20:
+                max_avg_duration = dur_20
+                torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
                 
     log_episodes = {'episode': [i for i in range(len(episode_durations))], 
                     'duration': episode_durations}
