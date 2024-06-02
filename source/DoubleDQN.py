@@ -44,7 +44,7 @@ def train(test_id):
     # Epsilon values for ϵ greedy exploration
     EPS_START = float(df_tests['epsilon_start'][row])
     EPS_END = float(df_tests['epsilon_end'][row])
-    # EPSILON = float(df_tests['epsilon'][row])
+    #EPSILON = float(df_tests['epsilon'][row])
     
     # update rate of the target network
     TAU = float(df_tests['tau'][row])
@@ -71,7 +71,7 @@ def train(test_id):
     print(f"Memory Size: {MEMORY_SIZE}")
     print(f"Gamma: {GAMMA}")
     print(f"Tau: {TAU}")
-    # print(f"Epsilon: {EPSILON}")
+    #print(f"Epsilon: {EPSILON}")
     print(f"E start: {EPS_START}")
     print(f"E end: {EPS_END}")
     print(f"C Steps: {C_STEPS}")
@@ -124,7 +124,7 @@ def train(test_id):
         
         # Exploration or exploitation
         epsilon = EPS_END + ((ITERATIONS - STEPS_DONE) * (EPS_START - EPS_END) / ITERATIONS)
-        # epsilon = EPSILON
+        #epsilon = EPSILON
         u = random()
         random_action = u <= epsilon
         if random_action:
