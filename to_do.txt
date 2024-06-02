@@ -1,3 +1,5 @@
+* find another way to save best model (loss is not fit for the task)
+
 * optimize GPU memory utilization
 
 * create tests.csv file and read from there
