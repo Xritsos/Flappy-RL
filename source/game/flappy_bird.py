@@ -3,6 +3,7 @@
 """
 from itertools import cycle
 from numpy.random import randint
+import pygame
 from pygame import Rect, init, time, display
 from pygame.event import pump
 from pygame.image import load
@@ -66,6 +67,8 @@ class FlappyBird(object):
 
         self.current_velocity_y = 0
         self.is_flapped = False
+        
+        self.RED = (255, 0, 0) 
 
     def generate_pipe(self):
         x = self.screen_width + 10
@@ -96,7 +99,7 @@ class FlappyBird(object):
                     return True
         return False
 
-    def next_frame(self, action):
+    def next_frame(self, action, disp_score=False):
         pump()
         reward = 0.0
         terminal = False
@@ -150,7 +153,13 @@ class FlappyBird(object):
         for pipe in self.pipes:
             self.screen.blit(self.pipe_images[0], (pipe["x_upper"], pipe["y_upper"]))
             self.screen.blit(self.pipe_images[1], (pipe["x_lower"], pipe["y_lower"]))
+            
+        if disp_score == True:
+            font = pygame.font.Font(None, 36) 
+            text = font.render("Score: " + str(self.score), True, self.RED) 
+            self.screen.blit(text, (10, 10)) 
         image = array3d(display.get_surface())
         display.update()
         self.fps_clock.tick(self.fps)
+
         return image, reward, terminal
