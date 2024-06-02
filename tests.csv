@@ -2,4 +2,8 @@ test_id,iterations,lr,optimizer,batch_size,memory_size,gamma,tau,epsilon,epsilon
 1,200000,0.000001,adam,32,20000,0.99,0.005,0.5,none,none,1000,,,,gets stuck/stopped before ending
 2,200000,0.000001,adam,32,20000,0.99,0.005,0.1,none,none,1000,,,,gets stuck/stopped before ending
 3,200000,0.000001,adam,32,20000,0.99,0.005,0.8,none,none,1000,,,,gets stuck/stopped before ending
-4,200000,0.000001,adam,32,20000,0.99,0.005,none,0.1,0.0001,1000,,,,
+4,200000,0.000001,adam,32,20000,0.99,0.005,none,0.1,0.0001,1000,,,,gets stuck/stopped before ending
+5,200000,0.000001,adam,32,20000,0.99,0.005,0.1,none,none,1000,,,,
+6,200000,0.000001,adam,32,20000,0.99,0.005,0.5,none,none,1000,,,,
+7,200000,0.000001,adam,32,20000,0.99,0.005,0.8,none,none,1000,,,,
+8,200000,0.000001,adam,32,20000,0.99,0.005,none,0.1,0.0001,1000,,,,
