@@ -101,7 +101,7 @@ class FlappyBird(object):
 
     def next_frame(self, action, disp_score=False):
         pump()
-        reward = 0.0
+        reward = 0.1
         terminal = False
         # Check input action
         if action == 1:
