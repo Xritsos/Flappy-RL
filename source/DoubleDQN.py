@@ -244,11 +244,12 @@ def train(test_id):
 
 if __name__ == "__main__":
     
-    test_id = int(input("Set test_id> "))
+    # test_id = int(input("Set test_id> "))
     
-    plt.ion()
-    
-    train(test_id)
+    for test_id in [5, 8]:
+        plt.ion()
+        
+        train(test_id)
 
-    plt.ioff()
-    plt.show()
+        plt.ioff()
+        plt.show()
