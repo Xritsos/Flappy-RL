@@ -4,8 +4,8 @@ test_id,iterations,lr,optimizer,batch_size,memory_size,gamma,tau,epsilon,epsilon
 3,200000,0.0001,adam,32,20000,0.99,0.005,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
 4,200000,0.0001,adam,32,20000,0.99,0.005,none,0.1,0.000001,1000,,,,gets stuck / stopped at 2000 episodes
 5,200000,0.0001,adam,32,20000,0.99,0.5,0.1,none,none,1000,,,,
-6,200000,0.0001,adam,32,20000,0.99,0.5,0.5,none,none,1000,,,,
-7,200000,0.0001,adam,32,20000,0.99,0.5,0.8,none,none,1000,,,,
+6,200000,0.0001,adam,32,20000,0.99,0.5,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+7,200000,0.0001,adam,32,20000,0.99,0.5,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
 8,200000,0.0001,adam,32,20000,0.99,0.5,none,0.1,0.000001,1000,,,,
 9,200000,0.0001,adam,32,20000,0.99,0.005,0.1,none,none,1000,,,,
 10,200000,0.0001,adam,32,20000,0.99,0.005,0.5,none,none,1000,,,,
