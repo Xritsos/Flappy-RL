@@ -1,11 +1,4 @@
-* optimize GPU memory utilization (optional)
-
-* see different ways when to save an RL model
+* try SiLU
 
 * add sources in each file.py
 
-* run steps.odt file starting for everything done
-    - double DQN implementation
-    - rewards tried
-    - architecture modified (compared to source x)
-    - 
