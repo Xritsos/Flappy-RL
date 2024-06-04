@@ -239,17 +239,17 @@ def train(test_id):
     
     df_tests.to_csv('./tests.csv', index=False)
     
-    pygame.quit()
-    exit()
+    # pygame.quit()
+
 
 if __name__ == "__main__":
     
     # test_id = int(input("Set test_id> "))
     
-    for test_id in [5, 8]:
+    for test_id in [5, 8, 9]:
         plt.ion()
         
         train(test_id)
-
-        plt.ioff()
+        
         plt.show()
+        plt.ioff()
