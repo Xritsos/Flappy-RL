@@ -1,9 +1,10 @@
 test_id,iterations,lr,optimizer,activation,batch_size,memory_size,gamma,tau,epsilon,epsilon_start,epsilon_end,c_steps,score (duration),loss,runtime (hours),comments
-1,500000,0.0001,adam,selu,32,20000,0.99,0.005,0.1,none,none,1000,,,,learns very slowly
-2,500000,0.0001,adam,selu,32,20000,0.99,0.005,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-3,500000,0.0001,adam,selu,32,20000,0.99,0.005,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-4,500000,0.0001,adam,selu,32,20000,0.99,0.005,none,0.1,0.000001,1000,,,,gets stuck / stopped at 2000 episodes
-5,500000,0.0001,adam,selu,32,20000,0.99,0.5,0.1,none,none,1000,,,,
-6,500000,0.0001,adam,selu,32,20000,0.99,0.5,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-7,500000,0.0001,adam,selu,32,20000,0.99,0.5,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-8,500000,0.0001,adam,selu,32,20000,0.99,0.5,none,0.1,0.000001,1000,,,,
+1,250000,0.0001,adam,selu,32,20000,0.99,0.005,0.1,none,none,1000,,,,learns very slowly
+2,250000,0.0001,adam,selu,32,20000,0.99,0.005,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+3,250000,0.0001,adam,selu,32,20000,0.99,0.005,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+4,250000,0.0001,adam,selu,32,20000,0.99,0.005,none,0.1,0.000001,1000,,,,gets stuck / stopped at 2000 episodes
+5,250000,0.0001,adam,selu,32,20000,0.99,0.5,0.1,none,none,1000,27,2.7432177066803,0.02,learns
+6,250000,0.0001,adam,selu,32,20000,0.99,0.5,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+7,250000,0.0001,adam,selu,32,20000,0.99,0.5,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+8,250000,0.0001,adam,selu,32,20000,0.99,0.5,none,0.1,0.000001,1000,23,19.8661766052246,0.02,learns
+9,250000,0.0001,adam,silu,32,20000,0.99,0.5,0.1,none,none,1000,12,5012.63671875,0.02,
