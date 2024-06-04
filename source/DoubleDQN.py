@@ -243,7 +243,7 @@ if __name__ == "__main__":
     
     # test_id = int(input("Set test_id> "))
     
-    for test_id in [17]:
+    for test_id in [5, 8]:
         plt.ion()
         
         train(test_id)
