@@ -191,30 +191,27 @@ def train(test_id):
             state = next_state
             STEPS_DONE += 1
             duration += 1
-            all_loss.append(loss)
             
-        # if iterations reached the number update target network
-        if STEPS_DONE % C_STEPS == 0:
-            target_net_state_dict = target_net.state_dict()
-            policy_net_state_dict = Q_net.state_dict()
+            # if iterations reached the number update target network
+            if STEPS_DONE % C_STEPS == 0:
+                target_net_state_dict = target_net.state_dict()
+                policy_net_state_dict = Q_net.state_dict()
 
-            for key in policy_net_state_dict:
-                target_net_state_dict[key] = policy_net_state_dict[key]*TAU\
-                                            + target_net_state_dict[key]*(1-TAU)
+                for key in policy_net_state_dict:
+                    target_net_state_dict[key] = policy_net_state_dict[key]*TAU\
+                                                + target_net_state_dict[key]*(1-TAU)
 
-            target_net.load_state_dict(target_net_state_dict)
-
-        if terminal:
-            episode_durations.append(duration)
-            plot_durations(episode_durations)
-            duration = 0
-
-        if len(episode_durations) >= 20:
-            dur_20 = average(episode_durations[-20:])
-            if max_avg_duration < dur_20:
-                max_avg_duration = dur_20
+                target_net.load_state_dict(target_net_state_dict)
+                
                 torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
                 save_loss = float(loss.detach().cpu())
+                duration_score = duration
+
+            if terminal:
+                episode_durations.append(duration)
+                all_loss.append(loss)
+                plot_durations(episode_durations)
+                duration = 0
     
     end_time = time.time() 
     runtime = end_time - start_time
@@ -224,7 +221,7 @@ def train(test_id):
     log_episodes = {'episode': [i for i in range(len(episode_durations))], 
                     'duration': episode_durations}
 
-    log_losses = {'iteration': [i for i in range(ITERATIONS)],
+    log_losses = {'iteration': [i for i in range(len(episode_durations))],
                   'loss': [float(loss.detach().cpu()) for loss in all_loss]}
 
     df_episode = pd.DataFrame(log_episodes)
@@ -235,7 +232,7 @@ def train(test_id):
     
     df_tests.loc[row, 'loss'] = save_loss
     df_tests.loc[row, 'runtime (hours)'] = runtime
-    df_tests.loc[row, 'score (duration)'] = max_avg_duration
+    df_tests.loc[row, 'score (duration)'] = duration_score
     
     df_tests.to_csv('./tests.csv', index=False)
     
@@ -246,7 +243,7 @@ if __name__ == "__main__":
     
     # test_id = int(input("Set test_id> "))
     
-    for test_id in [8]:
+    for test_id in [17]:
         plt.ion()
         
         train(test_id)
