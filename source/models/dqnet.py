@@ -10,20 +10,25 @@ import torch
 import torch.nn as nn
 
 class DeepQNetwork(nn.Module):
-    def __init__(self):
+    def __init__(self, activation_function):
         super(DeepQNetwork, self).__init__()
         
         torch.manual_seed(22)
         torch.cuda.manual_seed(22)
+        
+        if activation_function == "selu":
+            activation = nn.SELU(inplace=True)
+        elif activation_function == "silu":
+            activation = nn.SiLU(inplace=True)
 
         self.conv1 = nn.Sequential(nn.Conv2d(4, 32, kernel_size=3, stride=3), 
-                                   nn.SELU(inplace=True))
+                                   activation)
         self.conv2 = nn.Sequential(nn.Conv2d(32, 64, kernel_size=2, stride=2), 
-                                   nn.SELU(inplace=True))
+                                   activation)
         self.conv3 = nn.Sequential(nn.Conv2d(64, 64, kernel_size=2, stride=2), 
-                                   nn.SELU(inplace=True))
+                                   activation)
 
-        self.fc1 = nn.Sequential(nn.Linear(7 * 7 * 64, 512), nn.ReLU(inplace=True))
+        self.fc1 = nn.Sequential(nn.Linear(7 * 7 * 64, 512), activation)
         self.fc2 = nn.Linear(512, 2)
     #     self._create_weights()
 

@@ -1,17 +1,9 @@
-test_id,iterations,lr,optimizer,batch_size,memory_size,gamma,tau,epsilon,epsilon_start,epsilon_end,c_steps,score (duration),loss,runtime (hours),comments
-1,200000,0.0001,adam,32,20000,0.99,0.005,0.1,none,none,1000,,,,learns very slowly
-2,200000,0.0001,adam,32,20000,0.99,0.005,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-3,200000,0.0001,adam,32,20000,0.99,0.005,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-4,200000,0.0001,adam,32,20000,0.99,0.005,none,0.1,0.000001,1000,,,,gets stuck / stopped at 2000 episodes
-5,500000,0.0001,adam,32,20000,0.99,0.5,0.1,none,none,1000,2260.0,25.042865753173828,4.64,
-6,200000,0.0001,adam,32,20000,0.99,0.5,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-7,200000,0.0001,adam,32,20000,0.99,0.5,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-8,500000,0.0001,adam,32,20000,0.99,0.5,none,0.1,0.000001,1000,,,,
-9,200000,0.0001,adam,32,20000,0.99,0.005,0.1,none,none,1000,,,,
-10,200000,0.0001,adam,32,20000,0.99,0.005,0.5,none,none,1000,,,,
-11,200000,0.0001,adam,32,20000,0.99,0.005,0.8,none,none,1000,,,,
-12,200000,0.0001,adam,32,20000,0.99,0.005,none,0.1,0.000001,1000,,,,
-13,200000,0.0001,adam,32,20000,0.99,0.5,0.1,none,none,1000,,,,
-14,200000,0.0001,adam,32,20000,0.99,0.5,0.5,none,none,1000,,,,
-15,200000,0.0001,adam,32,20000,0.99,0.5,0.8,none,none,1000,,,,
-16,200000,0.0001,adam,32,20000,0.99,0.5,none,0.1,0.000001,1000,,,,
+test_id,iterations,lr,optimizer,activation,batch_size,memory_size,gamma,tau,epsilon,epsilon_start,epsilon_end,c_steps,score (duration),loss,runtime (hours),comments
+1,500000,0.0001,adam,selu,32,20000,0.99,0.005,0.1,none,none,1000,,,,learns very slowly
+2,500000,0.0001,adam,selu,32,20000,0.99,0.005,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+3,500000,0.0001,adam,selu,32,20000,0.99,0.005,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+4,500000,0.0001,adam,selu,32,20000,0.99,0.005,none,0.1,0.000001,1000,,,,gets stuck / stopped at 2000 episodes
+5,500000,0.0001,adam,selu,32,20000,0.99,0.5,0.1,none,none,1000,,,,
+6,500000,0.0001,adam,selu,32,20000,0.99,0.5,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+7,500000,0.0001,adam,selu,32,20000,0.99,0.5,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
+8,500000,0.0001,adam,selu,32,20000,0.99,0.5,none,0.1,0.000001,1000,,,,

@@ -36,6 +36,8 @@ def train(test_id):
     # Discount factor
     GAMMA = float(df_tests['gamma'][row])
     
+    ACTIVATION = str(df_tests['activation'][row])
+    
     # batch size to read from replay memory
     BATCH_SIZE = int(df_tests['batch_size'][row])
     
@@ -73,6 +75,7 @@ def train(test_id):
     print()
     print('==================== Parameters =======================')
     print(f"Iterations: {ITERATIONS}")
+    print(f"Activation: {ACTIVATION}")
     print(f"Batch Size: {BATCH_SIZE}")
     print(f"Learning Rate: {LR}")
     print(f"Memory Size: {MEMORY_SIZE}")
@@ -84,10 +87,10 @@ def train(test_id):
     print(f"C Steps: {C_STEPS}")
     print("========================================================")    
     # initialize networks
-    Q_net = DeepQNetwork()  # policy network
+    Q_net = DeepQNetwork(activation_function=ACTIVATION)  # policy network
     Q_net.to(device)
     
-    target_net = DeepQNetwork()
+    target_net = DeepQNetwork(activation_function=ACTIVATION)
     target_net.to(device)
     
     # no grad needed for target network for which the weights are copied from 
