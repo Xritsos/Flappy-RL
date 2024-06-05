@@ -3,8 +3,11 @@ test_id,iterations,lr,optimizer,activation,batch_size,memory_size,gamma,tau,epsi
 2,250000,0.0001,adam,selu,32,20000,0.99,0.005,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
 3,250000,0.0001,adam,selu,32,20000,0.99,0.005,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
 4,250000,0.0001,adam,selu,32,20000,0.99,0.005,none,0.1,0.000001,1000,,,,gets stuck / stopped at 2000 episodes
-5,250000,0.0001,adam,selu,32,20000,0.99,0.5,0.1,none,none,1000,708.0,316.08056640625,2.34,learns
+5,250000,0.0001,adam,selu,32,20000,0.99,0.5,0.1,none,none,1000,708,316.08056640625,2.34,learns
 6,250000,0.0001,adam,selu,32,20000,0.99,0.5,0.5,none,none,1000,,,,gets stuck / stopped at 2000 episodes
 7,250000,0.0001,adam,selu,32,20000,0.99,0.5,0.8,none,none,1000,,,,gets stuck / stopped at 2000 episodes
-8,250000,0.0001,adam,selu,32,20000,0.99,0.5,none,0.1,0.000001,1000,199.0,759.351318359375,2.33,learns
-9,250000,0.0001,adam,silu,32,20000,0.99,0.5,0.1,none,none,1000,7.0,61.61024475097656,2.37,
+8,250000,0.0001,adam,selu,32,20000,0.99,0.5,none,0.1,0.000001,1000,199,759.351318359375,2.33,learns
+9,250000,0.0001,adam,silu,32,20000,0.99,0.5,0.1,none,none,1000,7,61.6102447509766,2.37,
+10,250000,0.0001,adam,silu,32,20000,0.99,0.5,none,0.1,1.00E-06,1000,,,,
+11,250000,0.0001,adam,relu,32,20000,0.99,0.5,0.1,none,none,1000,,,,
+12,250000,0.0001,adam,relu,32,20000,0.99,0.5,none,0.1,1.00E-06,1000,,,,

@@ -1,4 +1,6 @@
-* try SiLU
+* fix model saving (avg 50 last episodes ?)
+
+* plot episodes/duration and compare selu silu and relu
 
 * add sources in each file.py
 
