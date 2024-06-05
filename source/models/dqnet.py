@@ -20,6 +20,8 @@ class DeepQNetwork(nn.Module):
             activation = nn.SELU(inplace=True)
         elif activation_function == "silu":
             activation = nn.SiLU(inplace=True)
+        else:
+            activation = nn.ReLU(inplace=True)
 
         self.conv1 = nn.Sequential(nn.Conv2d(4, 32, kernel_size=3, stride=3), 
                                    activation)
