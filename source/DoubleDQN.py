@@ -128,7 +128,7 @@ def train(test_id):
     all_loss = []
     save_loss = 0
     duration = 0
-    max_avg_duration = 0 # for 20 episodes
+    max_avg_duration = 0 # for 50 episodes
     while STEPS_DONE < ITERATIONS: 
         prediction = Q_net(state)[0]
         
@@ -206,9 +206,13 @@ def train(test_id):
 
                 target_net.load_state_dict(target_net_state_dict)
                 
-                torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
-                save_loss = float(loss.detach().cpu())
-                duration_score = duration
+            if len(episode_durations) > 50:
+                if (sum(episode_durations[-50:]) / 50) > max_avg_duration:
+                    max_avg_duration = sum(episode_durations[-50:]) / 50
+                
+                    torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
+                    save_loss = float(loss.detach().cpu())
+                    duration_score = max_avg_duration
 
             if terminal:
                 episode_durations.append(duration)
@@ -245,7 +249,6 @@ def train(test_id):
 if __name__ == "__main__":
     
     # test_id = int(input("Set test_id> "))
-    
     for test_id in [10, 11, 12]:
         plt.ion()
         
