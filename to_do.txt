@@ -1,5 +1,4 @@
-* plot episodes/duration and compare selu silu and relu
-and add them to steps
+* perform some tests for the update network frequency param: c_steps
 
 * add sources in each file.py
 
