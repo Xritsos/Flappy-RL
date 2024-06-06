@@ -31,7 +31,7 @@ def plot_durations(episode_durations, offline_plot=False, test_id=None):
     
     
 if __name__ == "__main__":
-    test_id = 12
+    test_id = 15
     
     df = pd.read_csv(f'./logs/episodes/{test_id}.csv')
     
