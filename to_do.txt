@@ -1,4 +1,1 @@
-* perform some tests for the update network frequency param: c_steps
-
 * add sources in each file.py
-
