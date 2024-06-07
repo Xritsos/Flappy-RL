@@ -205,21 +205,21 @@ def train(test_id):
                                                 + target_net_state_dict[key]*(1-TAU)
 
                 target_net.load_state_dict(target_net_state_dict)
-                
-            if len(episode_durations) > 50:
-                if (sum(episode_durations[-50:]) / 50) > max_avg_duration:
-                    max_avg_duration = sum(episode_durations[-50:]) / 50
-                
-                    torch.save(Q_net, f'./model_ckpts/{test_id}_model.pt')
-                    save_loss = float(loss.detach().cpu())
-                    duration_score = max_avg_duration
 
             if terminal:
                 episode_durations.append(duration)
                 all_loss.append(loss)
                 plot_durations(episode_durations)
                 duration = 0
-    
+        
+            if len(episode_durations) > 50:
+                if (sum(episode_durations[-50:]) / 50) > max_avg_duration:
+                    max_avg_duration = sum(episode_durations[-50:]) / 50
+                
+                    torch.save(Q_net.state_dict(), f'./model_ckpts/{test_id}_model.pt')
+                    save_loss = float(loss.detach().cpu())
+                    duration_score = max_avg_duration
+
     end_time = time.time() 
     runtime = end_time - start_time
     runtime = runtime / 3600
