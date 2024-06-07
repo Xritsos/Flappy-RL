@@ -18,6 +18,7 @@ def test(test_id):
     
     with torch.no_grad():
         model = torch.load(f'./model_ckpts/{test_id}_model.pt')
+        model.eval()
         
         game_state = FlappyBird()
         image, reward, terminal = game_state.next_frame(0, disp_score=True)
@@ -56,4 +57,4 @@ def test(test_id):
 
 if __name__ == "__main__":
     
-    test(test_id=0)
+    test(test_id=22)
