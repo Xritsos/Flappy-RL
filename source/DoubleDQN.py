@@ -248,7 +248,7 @@ def train(test_id):
 
 if __name__ == "__main__":
     
-    for test_id in [22]:
+    for test_id in [23]:
         plt.ion()
         
         train(test_id)
