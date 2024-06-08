@@ -1,6 +1,6 @@
 """
 @author: Viet Nguyen <nhviet1009@gmail.com>
-https://github.com/uvipen/Flappy-bird-deep-Q-learning-pytorch/tree/master
+@repo: https://github.com/uvipen/Flappy-bird-deep-Q-learning-pytorch/tree/master
 """
 from itertools import cycle
 from numpy.random import randint

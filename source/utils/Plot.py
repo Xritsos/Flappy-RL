@@ -1,5 +1,5 @@
 """Plotting of duration/episode and loss. Main code snippet from:
-https://github.com/hardlyrichie/pytorch-flappy-bird/tree/master
+@repo: https://github.com/hardlyrichie/pytorch-flappy-bird/tree/master
 
 altered to include losses.
 """
