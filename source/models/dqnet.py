@@ -2,7 +2,7 @@
 @author: Viet Nguyen <nhviet1009@gmail.com>
 @repo: https://github.com/uvipen/Flappy-bird-deep-Q-learning-pytorch/tree/master
 
-but is modified by adding SELU as activation and changing kernel sizes and strides.
+but is modified by adding different activations and changing kernel sizes and strides.
 Also, default pytorch weights are used instead of the custom _create_weights().
 """
 
@@ -32,13 +32,6 @@ class DeepQNetwork(nn.Module):
 
         self.fc1 = nn.Sequential(nn.Linear(7 * 7 * 64, 512), activation)
         self.fc2 = nn.Linear(512, 2)
-    #     self._create_weights()
-
-    # def _create_weights(self):
-    #     for m in self.modules():
-    #         if isinstance(m, nn.Conv2d) or isinstance(m, nn.Linear):
-    #             nn.init.uniform_(m.weight, -0.01, 0.01)
-    #             nn.init.constant_(m.bias, 0)
 
     def forward(self, input):
         output = self.conv1(input)
