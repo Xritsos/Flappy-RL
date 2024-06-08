@@ -9,7 +9,7 @@ This assignment aims at exploring the basic principles of Reinforcement Learning
 https://github.com/Xritsos/Flappy-RL/assets/57326163/9326ae1d-a5a2-41aa-95fe-4df22494e45e
 
 # Files
-All of the game assets such as sounds and images can be found on `assets`, while logs are kept for each test tried on `tests.csv` on the `logs` folder. The best model so far is save in the `model_ckpts` folder, although an investigation should be made, because there seems that model saving is problematic. To test and visualize the results of your model access `test/test_game.py`, where the model is loaded and an avi file is saved for each trial.  
+All of the game assets such as sounds and images can be found on `assets`, while logs are kept for each test tried on `tests.csv`, on the `logs` folder. The best model so far is saved in the `model_ckpts` folder, although an investigation should be made, because there seems that model saving is problematic. To test and visualize the results of your model access `test/test_game.py`, where the model is loaded and an avi file is saved for each trial.  
 
 Regarding the game, the pygame library is used as a base and the Flappy Bird game can be found on `source/game`. To train your own model, access `source/DoubleDQN.py` and pass a test id that is read from the `tests.csv` file. In order to customize your own model architecture, access `source/models/dqnet.py`. Image preprocessing, replay buffer memory and plotting functions can be found on `source/utils`.  
 
