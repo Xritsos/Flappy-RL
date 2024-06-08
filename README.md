@@ -20,9 +20,9 @@ The whole training process was held on linux machine. GPU utilization is advised
 Results presented in this work have been produced using the AUTH Compute Infrastructure and Resources. The author would like to acknowledge the support provided by the Scientific Computing Office throughout the progress of this research work.
 
 ## Refences
-[1] https://github.com/uvipen/Flappy-bird-deep-Q-learning-pytorch/tree/master
-[2] https://github.com/hardlyrichie/pytorch-flappy-bird/tree/master
-[3] https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
+[1] https://github.com/uvipen/Flappy-bird-deep-Q-learning-pytorch/tree/master  
+[2] https://github.com/hardlyrichie/pytorch-flappy-bird/tree/master  
+[3] https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html  
 [4] https://www.lesswrong.com/posts/kyvCNgx9oAwJCuevo/deep-q-networks-explained
 
 ## Contact
