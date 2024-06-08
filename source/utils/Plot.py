@@ -1,4 +1,8 @@
-"""Various functions for plotting."""
+"""Plotting of duration/episode and loss. Main code snippet from:
+https://github.com/hardlyrichie/pytorch-flappy-bird/tree/master
+
+altered to include losses.
+"""
 
 import torch
 import pandas as pd
