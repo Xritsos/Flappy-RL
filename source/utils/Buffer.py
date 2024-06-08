@@ -1,4 +1,6 @@
-"""Implement the Replay Buffer."""
+"""Implement the Replay Buffer based on:
+https://pytorch.org/tutorials/intermediate/reinforcement_q_learning.html
+"""
 
 import random
 from collections import namedtuple, deque
