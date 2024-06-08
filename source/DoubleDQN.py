@@ -1,4 +1,4 @@
-"""Train Flappy bird game with Double Deep Q Nets.
+"""Train Flappy bird game with Double Deep Q-Network.
 """
 
 import os
@@ -109,7 +109,6 @@ def train(test_id):
     
     # set loss function
     criterion = nn.MSELoss()
-    # criterion = nn.SmoothL1Loss()
     
     # Initialize replay memory
     memory = ReplayMemory(MEMORY_SIZE)
@@ -122,6 +121,7 @@ def train(test_id):
     
     image = torch.from_numpy(image).to(device)
     
+    # perhaps this line of code is wrong, as I don't understand why stack 4 images
     state = torch.cat(tuple(image for _ in range(4)))[None, :, :, :]
     average = lambda x: sum(x) / len(x)
     episode_durations = []
@@ -242,8 +242,6 @@ def train(test_id):
     df_tests.loc[row, 'score (duration)'] = duration_score
     
     df_tests.to_csv('./tests.csv', index=False)
-    
-    # pygame.quit()
 
 
 if __name__ == "__main__":
