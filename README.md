@@ -3,8 +3,8 @@
 ![PyTorch](https://img.shields.io/badge/PyTorch-%23EE4C2C.svg?style=for-the-badge&logo=PyTorch&logoColor=white)
 
 
-# Application of RL Double Q-Network on Flappy Bird Game.
-This assignement aims at exploring the basic principles of Reinforcement Learning and specifically DDQN method. For this purpose an agent is trained on the Flappy Bird game, which consists of two actions: fly and do nothing. A convolutional based model architecture is utilized and trained. This repo provides the tools and not a perfect final result. One can explore the process of training (`steps.odt`) and try experimenting further. A suggestion would be to make the training more stable by adding deeper or more layers. The basic parameters for getting started can be found on `tests.csv` test 22.
+# Application of RL Double Q-Network on Flappy Bird.
+This assignment aims at exploring the basic principles of Reinforcement Learning and specifically DDQN method. For this purpose an agent is trained on the Flappy Bird game, which consists of two actions: fly and do nothing. A convolutional based model architecture is utilized and trained. This repo provides the tools and not a perfect final result. One can explore the process of training (`steps.odt`) and try experimenting further. A suggestion would be to make the training more stable by adding deeper or more layers. The basic parameters for getting started can be found on `tests.csv` test 22.
 
 https://github.com/Xritsos/Flappy-RL/assets/57326163/9326ae1d-a5a2-41aa-95fe-4df22494e45e
 
