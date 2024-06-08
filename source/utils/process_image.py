@@ -1,5 +1,6 @@
-"""
+""" Based on
 @author: Viet Nguyen <nhviet1009@gmail.com>
+@repo: https://github.com/uvipen/Flappy-bird-deep-Q-learning-pytorch/tree/master
 """
 import cv2
 import numpy as np
