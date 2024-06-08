@@ -6,4 +6,5 @@
 # Application of RL Doubl Q-Network on Flappy Bird Game.
 Reinforcement Learing Flappy Bird Assignment
 
-<video src="https://github.com/Xritsos/Flappy-RL/blob/main/videos/23.avi" width="300" />
+https://github.com/Xritsos/Flappy-RL/assets/57326163/9326ae1d-a5a2-41aa-95fe-4df22494e45e
+
