@@ -1,5 +1,6 @@
 """
 @author: Viet Nguyen <nhviet1009@gmail.com>
+https://github.com/uvipen/Flappy-bird-deep-Q-learning-pytorch/tree/master
 """
 from itertools import cycle
 from numpy.random import randint
@@ -27,8 +28,7 @@ class FlappyBird(object):
     bird_images = [load('assets/sprites/redbird-upflap.png').convert_alpha(),
                    load('assets/sprites/redbird-midflap.png').convert_alpha(),
                    load('assets/sprites/redbird-downflap.png').convert_alpha()]
-    # number_images = [load('assets/sprites/{}.png'.format(i)).convert_alpha() for i in range(10)]
-
+    
     bird_hitmask = [pixels_alpha(image).astype(bool) for image in bird_images]
     pipe_hitmask = [pixels_alpha(image).astype(bool) for image in pipe_images]
 
